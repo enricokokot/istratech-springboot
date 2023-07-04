@@ -2,37 +2,35 @@ package hr.istratech.demo4.controller;
 
 
 import hr.istratech.demo4.domain.Person;
-import hr.istratech.demo4.repository.PersonRepository;
 //import org.springframework.beans.factory.annotation.Autowired;
+import hr.istratech.demo4.service.PersonService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/persons")
 public class PersonController {
 
-//    @Autowired
-    private PersonRepository personRepository;
+    //    @Autowired
+    final private PersonService personService;
 
-    public PersonController(PersonRepository personRepository) {
-        this.personRepository = personRepository;
+    public PersonController(final PersonService personService) {
+        this.personService = personService;
     }
 
     @PostMapping
     public Person savePerson(@RequestBody final Person person) {
-        return personRepository.save(person);
+        return personService.savePerson(person);
     }
 
     @GetMapping
-    public List<Person> getAllPersons() {
-        return personRepository.findAll();
+    public List<Person> getAllPersons(@RequestParam(name = "name", defaultValue = "") final String name) {
+        return personService.getAllPersonsFilteredByName(name);
     }
 
     @GetMapping("/{person_id}")
     public Person getPersonsById(@PathVariable("person_id") final Long personId) {
-        final Optional<Person> person = personRepository.findById(personId);
-        return person.get();
+        return personService.getPersonById(personId);
     }
 }
