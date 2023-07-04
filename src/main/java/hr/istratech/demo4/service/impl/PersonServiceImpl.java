@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+//import java.util.stream.Collectors;
 
 @Service
 public class PersonServiceImpl implements PersonService {
@@ -35,7 +35,8 @@ public class PersonServiceImpl implements PersonService {
         if (Strings.isBlank(name)) {
             return getAllPersons();
         }
-        return getAllPersons().stream().filter(person -> person.getName().equalsIgnoreCase(name)).collect(Collectors.toList());
+//        return getAllPersons().stream().filter(person -> person.getName().equalsIgnoreCase(name)).collect(Collectors.toList());
+        return personRepository.findAllByNameIgnoreCase(name);
     }
 
     @Override
